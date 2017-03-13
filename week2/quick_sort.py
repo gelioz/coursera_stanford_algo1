@@ -51,10 +51,7 @@ def partition(arr, left_idx, right_idx, pivot_idx):
     return right_part_idx - 1
 
 
-comparisons_count = 0
-
-
-def quick_sort(arr, left_idx=None, right_idx=None):
+def quick_sort(arr, left_idx=None, right_idx=None, count_comparisons=False):
     if left_idx is None and right_idx is None:
         left_idx, right_idx = 0, len(arr) - 1
 
@@ -65,18 +62,17 @@ def quick_sort(arr, left_idx=None, right_idx=None):
 
     pivot_idx = partition(arr, left_idx, right_idx, pivot_idx)
 
-    # data for coursera assignments
-    global comparisons_count
-    comparisons_count += right_idx - left_idx
+    # Get data for coursera assignment
+    if count_comparisons:
+        global comparisons_count
+        comparisons_count += right_idx - left_idx
 
-    quick_sort(arr, left_idx, pivot_idx - 1)
-    quick_sort(arr, pivot_idx + 1, right_idx)
+    quick_sort(arr, left_idx, pivot_idx - 1, count_comparisons)
+    quick_sort(arr, pivot_idx + 1, right_idx, count_comparisons)
     return arr
 
 
 if __name__ == "__main__":
-    # print([1, 3, 5, 2, 4, 6])
-    # print(quick_sort([1, 3, 5, 2, 4, 6]))
     if len(sys.argv) < 2:
         SORT_ERR_MSG = "%s: Array expected to be sorted"
         for arr in (
@@ -92,9 +88,10 @@ if __name__ == "__main__":
             sorted_arr = quick_sort(arr)
             assert sorted_arr == sorted(arr), SORT_ERR_MSG % arr
     elif len(sys.argv) == 2:
+        comparisons_count = 0
         f = open(sys.argv[1])
         arr = list(map(int, f.readlines()))
-        sorted_arr = quick_sort(arr)
+        quick_sort(arr, count_comparisons=True)
         print("Array size: %s. Comparisons count: %d" % (len(arr), comparisons_count))
     else:
         print("Wrong arguments. Usage:\n 'python quick_sort.py ints_array.txt'")

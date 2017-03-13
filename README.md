@@ -7,6 +7,7 @@ Latest version of course is available at https://www.coursera.org/learn/algorith
 
  - Week 1 (merge sort and inversions count piggybacking)
  - Week 2 (quick sort and various partition techniques)
+ - Week 3 (Karger randomized contraction algorithm for the min cut problem)
 
-### Code requirements
+### Requirements
 * Python 3.4+
